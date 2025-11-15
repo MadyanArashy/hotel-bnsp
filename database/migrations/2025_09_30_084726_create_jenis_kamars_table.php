@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('jenis_kamars', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-             $table->string('nama');
+            $table->string('nama');
             $table->string('deskripsi');
             $table->string('harga');
+            $table->string('thumbnailPath');
+            $table->string('videoUrl');
         });
     }
 
