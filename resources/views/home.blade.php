@@ -1,0 +1,240 @@
+@section('title', 'Welcome to BNSP Hotel - Luxury Accommodation')
+
+<x-form :jenisKamars="$jenisKamars" />
+<x-app-layout>
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-amber-600">BNSP Hotel</a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link">Home</a>
+                    <a href="#rooms" class="nav-link">Rooms</a>
+                    <a href="#amenities" class="nav-link">Amenities</a>
+                    <a href="#about" class="nav-link">About</a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="javascript:void(0)" onclick="openBookingModal()" class="btn-book">Book Now</a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-gray-100" id="mobile-menu-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden bg-white border-t" id="mobile-menu">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-amber-600">Home</a>
+                <a href="#rooms" class="block py-2 text-gray-700 hover:text-amber-600">Rooms</a>
+                <a href="#amenities" class="block py-2 text-gray-700 hover:text-amber-600">Amenities</a>
+                <a href="#about" class="block py-2 text-gray-700 hover:text-amber-600">About</a>
+                <a href="#contact" class="block py-2 text-gray-700 hover:text-amber-600">Contact</a>
+                <div class="pt-3 space-y-2">
+                    <a href="javascript:void(0)" onclick="openBookingModal()" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Experience Luxury & Comfort</h1>
+            <p class="hero-subtitle">Your perfect getaway awaits at BNSP Hotel</p>
+            <a href="#rooms" class="btn-hero">Explore Rooms</a>
+        </div>
+    </section>
+
+    <!-- Featured Rooms Section -->
+    <section id="rooms" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Our Rooms</h2>
+                <p class="section-subtitle">Choose from our selection of luxurious accommodations</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Room Cards -->
+                @foreach($jenisKamars as $kamar)
+                <div class="room-card">
+                    <div class="room-image" style="background-image: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800')"></div>
+                    <div class="room-content">
+                        <h3 class="room-title">{{ $kamar->nama }}</h3>
+                        <p class="room-description">{{ $kamar->deskripsi }}</p>
+                        <div class="room-footer">
+                            <div class="room-price">
+                                <span class="price-amount">Rp.{{ number_format($kamar->harga, 0, ",", ".") }}</span>
+                                <span class="price-period">/malam</span>
+                            </div>
+                            <a href="javascript:void(0)" onclick="openBookingModal()" class="btn-book">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section -->
+    <section id="amenities" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Hotel Amenities</h2>
+                <p class="section-subtitle">Everything you need for a perfect stay</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="amenity-card">
+                    <div class="amenity-icon">🏊</div>
+                    <h3 class="amenity-title">Swimming Pool</h3>
+                    <p class="amenity-description">Outdoor heated pool with stunning views</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🍽️</div>
+                    <h3 class="amenity-title">Restaurant</h3>
+                    <p class="amenity-description">Fine dining with international cuisine</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">💪</div>
+                    <h3 class="amenity-title">Fitness Center</h3>
+                    <p class="amenity-description">24/7 access to modern equipment</p>
+                </div>
+                
+                <div class="amenity-card">
+                    <div class="amenity-icon">🅿️</div>
+                    <h3 class="amenity-title">Free Parking</h3>
+                    <p class="amenity-description">Complimentary parking for all guests</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="section-title text-left">About BNSP Hotel</h2>
+                    <p class="text-gray-600 mb-6">
+                        Welcome to BNSP Hotel, where luxury meets comfort. Since our establishment, we've been dedicated to providing exceptional hospitality and creating unforgettable experiences for our guests.
+                    </p>
+                    <p class="text-gray-600 mb-6">
+                        Our hotel features state-of-the-art facilities, elegantly designed rooms, and a team of professionals committed to making your stay perfect. Whether you're here for business or leisure, we ensure every moment is memorable.
+                    </p>
+                    <div class="grid grid-cols-3 gap-6 mt-8">
+                        <div class="stat-card">
+                            <div class="stat-number">150+</div>
+                            <div class="stat-label">Rooms</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">50K+</div>
+                            <div class="stat-label">Happy Guests</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-amber-500 mb-4">BNSP Hotel</h3>
+                    <p class="text-gray-400">Your home away from home. Experience luxury and comfort.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-amber-500">Home</a></li>
+                        <li><a href="#rooms" class="text-gray-400 hover:text-amber-500">Rooms</a></li>
+                        <li><a href="#amenities" class="text-gray-400 hover:text-amber-500">Amenities</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-amber-500">About</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Room Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Concierge</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Spa & Wellness</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-amber-500">Events</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe for exclusive offers</p>
+                    <form class="flex">
+                        <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-r-lg">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 BNSP Hotel. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    @push('scripts')
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+    </script>
+    @endpush
+    @push('scripts')
+    <script>
+    function openBookingModal() {
+        document.getElementById('booking-modal').classList.add('active');
+    }
+    function closeBookingModal() {
+        document.getElementById('booking-modal').classList.remove('active');
+    }
+    </script>
+    @endpush
+</x-app-layout>
