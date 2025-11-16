@@ -1,6 +1,6 @@
 <x-app-layout>
   <div class="flex flex-grow">
-    <table class="w-[50%]">
+    <table class="w-[50%] mx-auto">
       <thead>
         <tr>
           <th>Pemesan</th>

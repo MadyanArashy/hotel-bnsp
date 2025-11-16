@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Unsplash\HttpClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        HttpClient::init([
+        'applicationId' => env('UNSPLASH_ACCESS_KEY'),
+        'secret'        => env('UNSPLASH_SECRET_KEY'),
+        'callbackUrl'   => '',
+        'utmSource'     => 'your_app_name'
+    ]);
     }
 }

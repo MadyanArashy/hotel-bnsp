@@ -1,3 +1,4 @@
+{{-- components/form.blade.php --}}
 <div id="booking-modal" class="modal">
     <div class="modal-overlay" onclick="closeBookingModal()"></div>
     <div class="modal-container">
@@ -23,11 +24,11 @@
                     @endphp
 
                     <label class="room-type-card {{ $available ? '' : 'opacity-50 pointer-events-none' }}">
-                        <input type="radio" name="jenis_kamar_id" value="{{ $jenis->id }}" class="room-type-radio" 
+                        <input type="radio" name="jenis_kamar_id" value="{{ $jenis->id }}" class="room-type-radio"
                             {{ $available ? '' : 'disabled' }} required>
                         <div class="room-type-content">
-                            <div class="room-type-image" 
-                                style="background-image: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400')">
+                            <div class="room-type-image"
+                                style="background-image: url({{ $jenis->thumbnailPath }})">
                             </div>
                             <div class="room-type-info">
                                 <h4 class="room-type-name">{{ $jenis->nama }}</h4>
@@ -59,21 +60,21 @@
 
                             <input type="radio" id="laki2" name="jenis_kelamin" value="laki-laki" required>
                             <label for="laki2" class="mr-2">Laki-Laki</label>
-                            
+
                             <input type="radio" id="perempuan" name="jenis_kelamin" value="perempuan" required>
                             <label for="perempuan" class="mr-2">Perempuan</label>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Nomor Identitas (NIK)</label>
-                            <input 
-                                type="text" 
-                                class="form-input" 
-                                name="nomor_identitas" 
-                                pattern="\d{16}" 
-                                maxlength="16"  
+                            <input
+                                type="text"
+                                class="form-input"
+                                name="nomor_identitas"
+                                pattern="\d{16}"
+                                maxlength="16"
                                 maxlength="16"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                                required 
+                                required
                             >
                         </div>
                     </div>
@@ -90,13 +91,13 @@
                         <div class="form-group">
                           <label class="form-label">Durasi (hari)</label>
                           <div class="relative">
-                            <input 
-                              type="number" 
-                              class="form-input pr-12" 
-                              required 
+                            <input
+                              type="number"
+                              class="form-input pr-12"
+                              required
                               name="durasi_menginap"
                               min="1"
-                              pattern="[0-9]*" 
+                              pattern="[0-9]*"
                               inputmode="numeric"
                               oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                               value="1"
@@ -183,18 +184,18 @@ function calculateTotal() {
     const selectedRoom = document.querySelector('input[name="jenis_kamar_id"]:checked');
     const durasiInput = document.querySelector('input[name="durasi_menginap"]');
     const sarapanCheckbox = document.querySelector('input[name="sarapan"]');
-    
+
     let roomPrice = 0;
     let roomName = 'Belum dipilih';
     let nights = parseInt(durasiInput?.value) || 1;
-    
+
     if (selectedRoom) {
         const roomCard = selectedRoom.closest('.room-type-card');
         const roomNameElement = roomCard.querySelector('.room-type-name');
         const roomPriceElement = roomCard.querySelector('.room-type-price');
-        
+
         roomName = roomNameElement?.textContent || 'Belum dipilih';
-        
+
         // Extract price from text (format: Rp.XXX.XXX/malam)
         if (roomPriceElement) {
             const priceText = roomPriceElement.textContent;
@@ -204,17 +205,17 @@ function calculateTotal() {
             }
         }
     }
-    
+
     let totalRoomPrice = roomPrice * nights;
     let sarapanPrice = 0;
     const sarapanPricePerDay = 80000; // Rp 80.000 per hari
-    
+
     if (sarapanCheckbox?.checked) {
         sarapanPrice = sarapanPricePerDay * nights;
     }
-    
+
     let totalPrice = totalRoomPrice + sarapanPrice;
-    
+
     return {
         roomName,
         nights,
@@ -227,22 +228,22 @@ function calculateTotal() {
 // Update summary display
 function updateSummary() {
     const summary = calculateTotal();
-    
+
     // Update summary elements
     const summaryRows = document.querySelectorAll('.summary-row');
-    
+
     // Row 1: Ruangan
     const summaryRoomElement = summaryRows[0]?.querySelector('.summary-value');
     if (summaryRoomElement) {
         summaryRoomElement.textContent = summary.roomName;
     }
-    
+
     // Row 2: Nights
     const summaryNightsElement = summaryRows[1]?.querySelector('.summary-value');
     if (summaryNightsElement) {
         summaryNightsElement.textContent = summary.nights;
     }
-    
+
     // Row 3: Total
     const summaryTotalElement = document.querySelector('.summary-row.total .summary-value');
     if (summaryTotalElement) {
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const durasiInput = document.querySelector('input[name="durasi_menginap"]');
     if (durasiInput) {
         durasiInput.addEventListener('input', updateSummary);
-        
+
         // Prevent negative or zero values
         durasiInput.addEventListener('blur', function() {
             if (!this.value || parseInt(this.value) < 1) {
