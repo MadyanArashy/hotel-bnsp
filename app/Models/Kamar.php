@@ -11,7 +11,9 @@ class Kamar extends Model
         "jenis_kamar_id"
     ];
 
-    public function jenis() {
-        return $this->belongsTo(JenisKamar::class);
+    public function jenis()
+    {
+        return $this->belongsTo(JenisKamar::class, 'jenis_kamar_id', 'id');
     }
+
 }

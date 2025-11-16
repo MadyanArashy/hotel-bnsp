@@ -14,7 +14,10 @@ class PesananController extends Controller
      */
     public function index()
     {
+        // $pop = Pesanan::find(1);
+        // dd($pop->kamar->jenis);
         $pesanans = Pesanan::with('kamar.jenis')->get();
+        $jenisKamars = JenisKamar::all();
         return view('pesanan', compact('pesanans'));
     }
 

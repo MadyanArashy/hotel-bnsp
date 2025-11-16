@@ -73,7 +73,7 @@
                                 pattern="\d{16}"
                                 maxlength="16"
                                 maxlength="16"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, ''); limitNIK(this, 16)"
                                 required
                             >
                         </div>
@@ -109,13 +109,13 @@
 
                 <!-- Services -->
                 <div class="form-section md:mx-4 lg:mx-8 xl:mx-12">
-                    <h3 class="form-section-title">Additional Services</h3>
+                    <h3 class="form-section-title">Layanan Tambahan</h3>
                     <div class="services-grid">
                         <label class="service-checkbox">
                             <input type="checkbox" name="sarapan" value="0">
                             <div class="service-label">
                                 <span class="service-icon">🥐</span>
-                                <span class="service-text">Breakfast</span>
+                                <span class="service-text">Sarapan</span>
                             </div>
                         </label>
                     </div>
@@ -129,7 +129,7 @@
                         <span class="summary-value">Deluxe Suite</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-label">Nights</span>
+                        <span class="summary-label">Durasi</span>
                         <span class="summary-value">2</span>
                     </div>
                     <div class="summary-row total">
@@ -176,6 +176,29 @@ function setMinDates() {
     const checkInInput = document.getElementById('check_in');
     if (checkInInput) {
         checkInInput.min = today;
+    }
+}
+
+function limitNIK(el, maxLength) {
+    el.value = el.value.replace(/\D/g, '');
+    if (el.value.length > maxLength) el.value = el.value.slice(0, maxLength);
+    if (el.value.length !== 16) {
+        el.setCustomValidity('Nomor identitas harus 16 angka');
+    } else {
+        el.setCustomValidity('');
+    }
+}
+
+function limitNoTelp(el, maxLength) {
+    el.value = el.value.replace(/\D/g, '');
+    if (el.value.length > maxLength) el.value = el.value.slice(0, maxLength);
+    const error = document.getElementById('errorHP');
+    if (el.value.length < 12 || el.value.length > 20) {
+        error.classList.remove('hidden');
+        el.setCustomValidity('Nomor telepon harus 12 sampai 20 angka');
+    } else {
+        error.classList.add('hidden');
+        el.setCustomValidity('');
     }
 }
 

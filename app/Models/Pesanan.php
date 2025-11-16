@@ -18,7 +18,7 @@ class Pesanan extends Model
     ];
 
     protected $casts = [
-        'check_in' => 'date', // otomatis jadi Carbon instance
+        'check_in' => 'date',
     ];
     public function kamar() {
         return $this->belongsTo(Kamar::class, 'kamar_id');

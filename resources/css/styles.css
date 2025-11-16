@@ -97,6 +97,23 @@
     width: 100%;
 }
 
+.special-nav-link {
+    color: #fff !important;
+    background-color: #d97706;
+    padding: 0.5rem;
+    margin: -0.5rem;
+    border-radius: 0.5rem;
+}
+
+.special-nav-link:hover {
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.special-nav-link::after {
+    width: 0% !important;
+}
+
 /* Buttons */
 .btn-primary {
     padding: 0.625rem 1.5rem;
@@ -422,15 +439,15 @@
     .hero-section {
         height: 70vh;
     }
-    
+
     .booking-form {
         grid-template-columns: 1fr;
     }
-    
+
     .section-title {
         font-size: 2rem;
     }
-    
+
     .about-image {
         height: 300px;
     }
@@ -699,7 +716,7 @@ textarea.form-input {
 
 .service-checkbox:hover .service-label {
   border-color: #fbbf24;
-    background: #fffbeb;     
+    background: #fffbeb;
 
 }
 
