@@ -189,19 +189,6 @@ function limitNIK(el, maxLength) {
     }
 }
 
-function limitNoTelp(el, maxLength) {
-    el.value = el.value.replace(/\D/g, '');
-    if (el.value.length > maxLength) el.value = el.value.slice(0, maxLength);
-    const error = document.getElementById('errorHP');
-    if (el.value.length < 12 || el.value.length > 20) {
-        error.classList.remove('hidden');
-        el.setCustomValidity('Nomor telepon harus 12 sampai 20 angka');
-    } else {
-        error.classList.add('hidden');
-        el.setCustomValidity('');
-    }
-}
-
 // Calculate total price
 function calculateTotal() {
     const selectedRoom = document.querySelector('input[name="jenis_kamar_id"]:checked');
