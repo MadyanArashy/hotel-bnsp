@@ -33,7 +33,7 @@
                         <!-- Video Play Button Overlay -->
                         <div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <button onclick="openVideoModal('{{ $kamar->videoUrl }}', '{{ $kamar->nama }}')"
-                                class="bg-amber-600 hover:bg-amber-700 text-white rounded-full p-4 transform hover:scale-110 transition-all duration-300 shadow-lg">
+                                class="bg-green-600 hover:bg-green-700 text-white rounded-full p-4 transform hover:scale-110 transition-all duration-300 shadow-lg">
                                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M8 5v14l11-7z"/>
                                 </svg>
@@ -41,7 +41,7 @@
                         </div>
 
                         <!-- Video Badge -->
-                        <div class="absolute top-3 right-3 bg-amber-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                        <div class="absolute top-3 right-3 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z"/>
                             </svg>
@@ -71,7 +71,7 @@
         <div class="relative w-full max-w-5xl">
             <!-- Close Button -->
             <button onclick="closeVideoModal()"
-            class="absolute -top-12 right-0 text-white hover:text-amber-500 transition-colors">
+            class="absolute -top-12 right-0 text-white hover:text-green-500 transition-colors">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -84,7 +84,7 @@
         <div class="bg-black rounded-lg overflow-hidden shadow-2xl" style="aspect-ratio: 16/9;">
             <iframe id="youtube-iframe"
             class="w-full h-full"
-            src=""
+            src="mute=1"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen>
@@ -166,27 +166,27 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-                <h3 class="text-2xl font-bold text-amber-500 mb-4">BNSP Hotel</h3>
+                <h3 class="text-2xl font-bold text-green-500 mb-4">BNSP Hotel</h3>
                 <p class="text-gray-400">Your home away from home. Experience luxury and comfort.</p>
             </div>
 
             <div>
                 <h4 class="font-semibold mb-4">Quick Links</h4>
                 <ul class="space-y-2">
-                    <li><a href="#home" class="text-gray-400 hover:text-amber-500">Home</a></li>
-                    <li><a href="#rooms" class="text-gray-400 hover:text-amber-500">Rooms</a></li>
-                    <li><a href="#amenities" class="text-gray-400 hover:text-amber-500">Amenities</a></li>
-                    <li><a href="#about" class="text-gray-400 hover:text-amber-500">About</a></li>
+                    <li><a href="#home" class="text-gray-400 hover:text-green-500">Home</a></li>
+                    <li><a href="#rooms" class="text-gray-400 hover:text-green-500">Rooms</a></li>
+                    <li><a href="#amenities" class="text-gray-400 hover:text-green-500">Amenities</a></li>
+                    <li><a href="#about" class="text-gray-400 hover:text-green-500">About</a></li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="font-semibold mb-4">Services</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-400 hover:text-amber-500">Room Service</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-amber-500">Concierge</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-amber-500">Spa & Wellness</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-amber-500">Events</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-green-500">Room Service</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-green-500">Concierge</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-green-500">Spa & Wellness</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-green-500">Events</a></li>
                 </ul>
             </div>
 
@@ -194,8 +194,8 @@
                 <h4 class="font-semibold mb-4">Newsletter</h4>
                 <p class="text-gray-400 mb-4">Subscribe for exclusive offers</p>
                 <form class="flex">
-                    <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    <button type="submit" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 rounded-r-lg">Subscribe</button>
+                    <input type="email" placeholder="Your email" class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-r-lg">Subscribe</button>
                 </form>
             </div>
         </div>
@@ -265,7 +265,7 @@
         }
 
         // Return embed URL with autoplay
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=1&mute=1`;
     }
 
     function openVideoModal(videoUrl, roomName) {

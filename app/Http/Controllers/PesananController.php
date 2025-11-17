@@ -16,7 +16,7 @@ class PesananController extends Controller
     {
         // $pop = Pesanan::find(1);
         // dd($pop->kamar->jenis);
-        $pesanans = Pesanan::with('kamar.jenis')->get();
+        $pesanans = Pesanan::with('kamar.jenis')->orderBy('check_in', 'asc')->get();
         $jenisKamars = JenisKamar::all();
         return view('pesanan', compact('pesanans'));
     }
@@ -33,8 +33,8 @@ class PesananController extends Controller
      * Store a newly created resource in storage.
      */
    public function store(Request $request)
-{
-    // Validasi input
+    {
+        // Validasi input
     $validated = $request->validate([
         "nama" => "required|string|max:255",
         "jenis_kelamin" => "required|string|in:laki-laki,perempuan",
@@ -45,7 +45,6 @@ class PesananController extends Controller
         "jenis_kamar_id" => "required|exists:jenis_kamars,id",
     ]);
 
-    // Cari jenis kamar berdasarkan ID
     $jenisKamar = JenisKamar::findOrFail($validated['jenis_kamar_id']);
 
     // Cari kamar yang tersedia untuk jenis kamar tersebut
@@ -61,18 +60,23 @@ class PesananController extends Controller
     // Hitung tanggal check-out
     $checkIn = \Carbon\Carbon::parse($validated['check_in']);
 
-    // Hitung total harga
+    // Hitung total harga kamar
     $hargaKamar = $jenisKamar->harga * $validated['durasi_menginap'];
-    $hargaSarapan = 0;
 
+    // Terapkan diskon 10% jika durasi menginap >= 3 hari
+    if ($validated['durasi_menginap'] >= 3) {
+        $hargaKamar = $hargaKamar * 0.9; // Diskon 10%
+    }
+
+    // Hitung harga sarapan
+    $hargaSarapan = 0;
     if ($validated['sarapan'] ?? false) {
         $hargaSarapan = 80000 * $validated['durasi_menginap']; // Rp 80.000 per hari
     }
 
     $totalHarga = $hargaKamar + $hargaSarapan;
 
-    // Buat pesanan baru
-    $pesanan = Pesanan::create([
+    Pesanan::create([
         'nama' => $validated['nama'],
         'jenis_kelamin' => $validated['jenis_kelamin'],
         'nomor_identitas' => $validated['nomor_identitas'],
@@ -89,9 +93,9 @@ class PesananController extends Controller
     $kamarTersedia->update(['tersedia' => 0]);
 
     // Redirect dengan pesan sukses
-    return redirect()->route('home')
+    return redirect()->route('pesanan.index')
         ->with('success', 'Booking berhasil! Pesanan Anda sedang diproses.');
-}
+    }
 
     /**
      * Display the specified resource.

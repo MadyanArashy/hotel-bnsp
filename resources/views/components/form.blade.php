@@ -18,17 +18,28 @@
                   <div class="room-type-grid">
                     @foreach($jenisKamars as $jenis)
                     @php
-                        // cari kamar yang tersedia
+                        // Cari kamar yang tersedia untuk jenis ini
                         $kamarTersedia = $jenis->kamars->where('tersedia', 1)->first();
-                        $available = $kamarTersedia ? 1 : 0;
+                        $available = $kamarTersedia ? true : false;
                     @endphp
 
-                    <label class="room-type-card {{ $available ? '' : 'opacity-50 pointer-events-none' }}">
-                        <input type="radio" name="jenis_kamar_id" value="{{ $jenis->id }}" class="room-type-radio"
-                            {{ $available ? '' : 'disabled' }} required>
+                    <label class="room-type-card {{ !$available ? 'opacity-50 pointer-events-none cursor-not-allowed' : 'cursor-pointer' }}">
+                        <input
+                            type="radio"
+                            name="jenis_kamar_id"
+                            value="{{ $jenis->id }}"
+                            class="room-type-radio"
+                            {{ !$available ? 'disabled' : '' }}
+                            required
+                        >
                         <div class="room-type-content">
                             <div class="room-type-image"
                                 style="background-image: url({{ $jenis->thumbnailPath }})">
+                                @if(!$available)
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                        <span class="text-white font-bold text-lg">SOLD OUT</span>
+                                    </div>
+                                @endif
                             </div>
                             <div class="room-type-info">
                                 <h4 class="room-type-name">{{ $jenis->nama }}</h4>
@@ -36,7 +47,7 @@
                                     @if($available)
                                         Rp.{{ number_format($jenis->harga, 0, ",", ".") }}/malam
                                     @else
-                                        <span class="text-red-500">Tidak tersedia</span>
+                                        <span class="text-red-500 font-semibold">Tidak Tersedia</span>
                                     @endif
                                 </p>
                                 <p class="room-type-details">{{ $jenis->deskripsi }}</p>
@@ -53,7 +64,13 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">Nama Anda</label>
-                            <input type="text" class="form-input" name="nama" required>
+                            <input
+                                type="text"
+                                class="form-input"
+                                name="nama"
+                                oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')"
+                                required
+                            >
                         </div>
                         <div class="form-group">
                             <label class="form-label">Jenis Kelamin</label>
@@ -72,7 +89,6 @@
                                 name="nomor_identitas"
                                 pattern="\d{16}"
                                 maxlength="16"
-                                maxlength="16"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, ''); limitNIK(this, 16)"
                                 required
                             >
@@ -86,7 +102,7 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">Check-In</label>
-                            <input type="date" id="check_in" class="form-input" required name="check_in">
+                            <input type="date" id="check_in" class="form-input" required name="check_in" oninput="minCheckIn(this)">
                         </div>
                         <div class="form-group">
                           <label class="form-label">Durasi (hari)</label>
@@ -115,7 +131,7 @@
                             <input type="checkbox" name="sarapan" value="0">
                             <div class="service-label">
                                 <span class="service-icon">🥐</span>
-                                <span class="service-text">Sarapan</span>
+                                <span class="service-text">Sarapan <span class="text-xs">(Rp.80.000/malam)</span></span>
                             </div>
                         </label>
                     </div>
@@ -126,15 +142,19 @@
                     <div class="summary-title">Booking Summary</div>
                     <div class="summary-row">
                         <span class="summary-label">Ruangan</span>
-                        <span class="summary-value">Deluxe Suite</span>
+                        <span class="summary-value">Belum dipilih</span>
                     </div>
                     <div class="summary-row">
                         <span class="summary-label">Durasi</span>
-                        <span class="summary-value">2</span>
+                        <span class="summary-value">1</span>
+                    </div>
+                    <div class="summary-row discount hidden">
+                        <span class="summary-label">Diskon</span>
+                        <span class="summary-value">10%</span>
                     </div>
                     <div class="summary-row total">
                         <span class="summary-label">Total</span>
-                        <span class="summary-value">0</span>
+                        <span class="summary-value">Rp 0</span>
                     </div>
                 </div>
 
@@ -189,9 +209,19 @@ function limitNIK(el, maxLength) {
     }
 }
 
+function minCheckIn(el) {
+    const today = new Date().toISOString().split('T')[0];
+    const checkInValue = el.value;
+    if (checkInValue < today) {
+        el.setCustomValidity('Tanggal check in harus setelah hari ini');
+    } else {
+        el.setCustomValidity('');
+    }
+}
+
 // Calculate total price
 function calculateTotal() {
-    const selectedRoom = document.querySelector('input[name="jenis_kamar_id"]:checked');
+    const selectedRoom = document.querySelector('input[name="jenis_kamar_id"]:checked:not(:disabled)');
     const durasiInput = document.querySelector('input[name="durasi_menginap"]');
     const sarapanCheckbox = document.querySelector('input[name="sarapan"]');
 
@@ -217,6 +247,22 @@ function calculateTotal() {
     }
 
     let totalRoomPrice = roomPrice * nights;
+
+    if(nights >= 3) {
+        totalRoomPrice *= 0.9;
+        const discountRow = document.querySelector('.discount');
+        if (discountRow) {
+            discountRow.classList.remove('hidden');
+            discountRow.style.display = '';
+        }
+    } else {
+        const discountRow = document.querySelector('.discount');
+        if (discountRow) {
+            discountRow.classList.add('hidden');
+            discountRow.style.display = 'none';
+        }
+    }
+
     let sarapanPrice = 0;
     const sarapanPricePerDay = 80000; // Rp 80.000 per hari
 
@@ -254,7 +300,13 @@ function updateSummary() {
         summaryNightsElement.textContent = summary.nights;
     }
 
-    // Row 3: Total
+    // Row 3: Discount
+    const summaryDiscountElement = summaryRows[2]?.querySelector('.summary-value');
+    if (summaryDiscountElement) {
+        summaryDiscountElement.textContent = `10% (Rp ${(summary.roomPrice * 0.1).toLocaleString('id-ID')})`;
+    }
+
+    // Row 4: Total
     const summaryTotalElement = document.querySelector('.summary-row.total .summary-value');
     if (summaryTotalElement) {
         summaryTotalElement.textContent = `Rp ${summary.totalPrice.toLocaleString('id-ID')}`;
@@ -307,5 +359,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial summary update
     updateSummary();
-});    </script>
-    @endpush
+});
+  </script>
+@endpush

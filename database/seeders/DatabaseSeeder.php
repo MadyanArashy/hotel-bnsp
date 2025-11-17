@@ -42,17 +42,20 @@ class DatabaseSeeder extends Seeder
         $jenisKamars = JenisKamar::all();
 
         // Konfigurasi jumlah lantai & kamar per lantai
-        $jumlahLantai = 5;       // misalnya 5 lantai
-        $kamarPerLantai = 10;    // misalnya 10 kamar per lantai
+        $jumlahLantai = 1;       // misalnya 5 lantai
+        $kamarPerLantai = 4;     // misalnya 10 kamar per lantai
 
-        foreach ($jenisKamars as $index => $jenis) {
+        $nomorKamarCounter = 1;  // Counter untuk nomor kamar unik
+
+        foreach ($jenisKamars as $jenis) {
             for ($lantai = 1; $lantai <= $jumlahLantai; $lantai++) {
                 for ($nomor = 1; $nomor <= $kamarPerLantai; $nomor++) {
                     Kamar::create([
-                        "nomor_ruangan" => ($lantai * 100) + $nomor, // ex: 101, 102, ..., 520
+                        "nomor_ruangan" => ($lantai * 100) + $nomorKamarCounter,
                         "tersedia" => 1,
                         "jenis_kamar_id" => $jenis->id
                     ]);
+                    $nomorKamarCounter++;
                 }
             }
         }

@@ -10,76 +10,7 @@
     @vite('resources/css/app.css')
   </head>
   <style>
-    .room-card {
-        background: white;
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
 
-    .room-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
-
-    .room-content {
-        padding: 1.5rem;
-    }
-
-    .room-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #1f2937;
-        margin-bottom: 0.5rem;
-    }
-
-    .room-description {
-        color: #6b7280;
-        margin-bottom: 1.5rem;
-        line-height: 1.6;
-    }
-
-    .room-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 1rem;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .room-price {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .price-amount {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #d97706;
-    }
-
-    .price-period {
-        font-size: 0.875rem;
-        color: #6b7280;
-    }
-
-    .btn-book {
-        background: #d97706;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        display: inline-block;
-    }
-
-    .btn-book:hover {
-        background: #b45309;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.3);
-    }
 
     #video-modal.active {
         display: flex !important;
@@ -93,7 +24,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-20">
                     <div class="flex items-center">
-                        <a href="/" class="text-2xl font-bold text-amber-600">BNSP Hotel</a>
+                        <a href="/" class="text-2xl font-bold text-green-600">BNSP Hotel</a>
                     </div>
 
                     <div class="hidden md:flex items-center space-x-8 {{ request()->routeIs('pesanan.index') ? 'absolute left-7/15' : '' }}">
@@ -126,11 +57,11 @@
             <!-- Mobile menu -->
             <div class="hidden md:hidden bg-white border-t" id="mobile-menu">
                 <div class="px-4 py-4 space-y-3">
-                    <a href="#home" class="block py-2 text-gray-700 hover:text-amber-600">Home</a>
-                    <a href="#rooms" class="block py-2 text-gray-700 hover:text-amber-600">Rooms</a>
-                    <a href="#amenities" class="block py-2 text-gray-700 hover:text-amber-600">Amenities</a>
-                    <a href="#about" class="block py-2 text-gray-700 hover:text-amber-600">About</a>
-                    <a href="#contact" class="block py-2 text-gray-700 hover:text-amber-600">Contact</a>
+                    <a href="#home" class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+                    <a href="#rooms" class="block py-2 text-gray-700 hover:text-green-600">Rooms</a>
+                    <a href="#amenities" class="block py-2 text-gray-700 hover:text-green-600">Amenities</a>
+                    <a href="#about" class="block py-2 text-gray-700 hover:text-green-600">About</a>
+                    <a href="#contact" class="block py-2 text-gray-700 hover:text-green-600">Contact</a>
                     <div class="pt-3 space-y-2">
                         <a href="javascript:void(0)" onclick="openBookingModal()" class="btn-book">Book Now</a>
                     </div>
