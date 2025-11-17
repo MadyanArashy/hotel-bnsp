@@ -10,8 +10,6 @@
     @vite('resources/css/app.css')
   </head>
   <style>
-
-
     #video-modal.active {
         display: flex !important;
     }
